@@ -75,6 +75,8 @@ $('#touchmotion').on('click', function(e){
 	$('#vel_rot').html(parseInt(vel_rot));
 });
 
+setInterval(pubMotorValues,100);
+
 // camera
 document.getElementById('camstream').data = 'http://'
 	+ location.hostname

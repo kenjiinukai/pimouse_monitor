@@ -48,6 +48,33 @@ $('#motor_off').on('click', function(e){
 	});
 });
 
+var vel = new ROSLIB.Topic({
+	ros : ros,
+	name : '/cmd_vel',
+	messageType : 'geometry_msgs/Twist'
+});
+
+function pubMotorValues(){
+	fw = $('#vel_fw').html();
+	rot = $('#vel_rot').html();
+
+	fw = parseInt(fw)*0.001;
+	rot = 3.141592*parseInt(rot)/180;
+	v = new ROSLIB.Message({linear:{x:fw,y:0,z:0}, angular:{x:0,y:0,z:rot}});
+	vel.publish(v);
+}
+
+$('#touchmotion').on('click', function(e){
+	rect = $('#touchmotion')[0].getBoundingClientRect();
+	x = e.pageX - rect.left - window.pageXOffset;
+	y = e.pageY - rect.top - window.pageYOffset;
+	
+	vel_fw = (rect.height/2 - y)*3;
+	vel_rot = rect.width/2 -x;
+	$('#vel_fw').html(parseInt(vel_fw));
+	$('#vel_rot').html(parseInt(vel_rot));
+});
+
 // camera
 document.getElementById('camstream').data = 'http://'
 	+ location.hostname

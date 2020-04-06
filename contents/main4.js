@@ -11,7 +11,13 @@ var ls = new ROSLIB.Topic({
 });
 
 ls.subscribe(function(message) {
-	document.getElementById('camstream').data = 'http://'
-		+ location.hostname
-		+ ':10000/stream?topic=/cv_camera_node/image_raw';
+	for( e in message) {
+		document.getElementById(e).innerHTML = message[e];
+	}
 });
+
+
+document.getElementById('camstream').data = 'http://'
+	+ location.hostname
+	+ ':10000/stream?topic=/cv_camera_node/image_raw';
+
